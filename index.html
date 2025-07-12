@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TxZero - DeFi Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-left">
+                <div class="avatar-circle">
+                    <img src="icons/icon48.png" alt="Avatar" />
+                </div>
+                <div class="header-info">
+                    <div class="username">@PrivateDev</div>
+                    <div class="header-title-row">
+                        <span class="header-title">Trading</span>
+                        <button class="icon-btn double-arrow-btn" title="Expand"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 10 8 6 12 10"/><polyline points="4 6 8 2 12 6"/></svg></button>
+                    </div>
+                </div>
+            </div>
+            <div class="header-actions">
+                <button class="icon-btn" title="History"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="9" r="7"/><path d="M9 5v4l2 2"/></svg></button>
+                <button class="icon-btn" title="Settings">
+                    <img src="icons/gear.png" alt="Settings" width="18" height="18" style="display:block;" />
+                </button>
+            </div>
+        </div>
+
+        <!-- Main Action Cards Grid -->
+        <div class="main-grid">
+            <div class="action-card" onclick="createProject()">
+                <div class="card-icon">➕</div>
+                <div class="card-title">New Tokens</div>
+                <div class="card-subtitle">Track latest launches</div>
+            </div>
+            
+            <div class="action-card" onclick="savedProjects()">
+                <div class="card-icon">🔖</div>
+                <div class="card-title">Portfolio</div>
+                <div class="card-subtitle">View your holdings</div>
+            </div>
+            
+            <div class="action-card" onclick="getSOL()">
+                <div class="card-icon">💰</div>
+                <div class="card-title">Yield Vaults</div>
+                <div class="card-subtitle">Earn with your crypto</div>
+            </div>
+            
+            <div class="action-card" onclick="pfRewards()">
+                <div class="card-icon">⭐</div>
+                <div class="card-title">Analytics</div>
+                <div class="card-subtitle">Market insights</div>
+            </div>
+        </div>
+
+        <!-- Full Width Cards -->
+        <div class="full-width-card" onclick="openDocumentation()">
+            <div class="card-content">
+                <div class="card-title">Market Overview</div>
+                <div class="card-subtitle">Real-time DeFi metrics</div>
+            </div>
+            <div class="card-arrow">↗</div>
+        </div>
+
+        <div class="full-width-card" onclick="followOnX()">
+            <div class="card-content">
+                <div class="card-title">Live Trading</div>
+                <div class="card-subtitle">Active memecoin trades</div>
+            </div>
+            <div class="card-arrow">↗</div>
+        </div>
+
+        <!-- Stats Summary -->
+        <div class="stats-summary">
+            <div class="stats-row">
+                <div class="stat-item">
+                    <div class="stat-number" id="tokensTracked">247</div>
+                    <div class="stat-label">Tokens Tracked</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="totalVolume">$2.4M</div>
+                    <div class="stat-label">Total Volume</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="successRate">94%</div>
+                    <div class="stat-label">Success Rate</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading Indicator -->
+        <div class="loading-indicator hidden" id="loadingIndicator">
+            <div class="spinner"></div>
+            <span>Loading data...</span>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <div class="bottom-nav">
+        <a href="#" class="nav-item active" id="nav-home">
+            <div class="nav-icon">
+                <!-- Modern Outline House Icon (roof, walls, centered door) -->
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 12L12 5l8 7"/>
+                    <path d="M5 12v7a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2v-3h2v3a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2v-7"/>
+                </svg>
+            </div>
+        </a>
+        <a href="#" class="nav-item" id="nav-sniper-settings">
+            <div class="nav-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                </svg>
+            </div>
+        </a>
+        <a href="#" class="nav-item" id="nav-wallet">
+            <div class="nav-icon">
+                <!-- Distinct Modern Wallet Icon -->
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="2" y="7" width="20" height="14" rx="2"/>
+                    <path d="M16 7V5a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v2"/>
+                    <circle cx="17" cy="15" r="1"/>
+                </svg>
+            </div>
+        </a>
+        <a href="#" class="nav-item" id="nav-server-browser">
+            <div class="nav-icon">
+                <!-- Modern Folder Icon -->
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 7a2 2 0 0 1 2-2h4l2 3h8a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7z"/>
+                </svg>
+            </div>
+        </a>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
